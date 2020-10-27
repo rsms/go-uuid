@@ -1,5 +1,11 @@
 # uuid
 
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/rsms/go-uuid.svg)][godoc]
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/rsms/go-uuid)][godoc]
+[![Go Report Card](https://goreportcard.com/badge/github.com/rsms/go-uuid)](https://goreportcard.com/report/github.com/rsms/go-uuid)
+
+[godoc]: https://pkg.go.dev/github.com/rsms/go-uuid
+
 - Binary sortable universally unique identifier
 - 16 bytes long, 6 bytes millisecond timestamp + 10 random bytes
 - Efficient base-62 string encoding that is URL safe

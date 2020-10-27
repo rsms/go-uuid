@@ -31,7 +31,7 @@ Data layout example:
 	                    = 2020-10-20 16:45:45.713 UTC
 
 Note that while it seems like we could use nanosecond for the timestamp to reduce the
-random data needed, environments like JavaScript doesn't neccessarily provide high-precision
+random data needed, environments like JavaScript doesn't necessarily provide high-precision
 clocks. Doing things this way means that we can generate and parse the embedded timestamp
 in a wide variety of programming languages.
 
@@ -51,7 +51,7 @@ var Max = UUID{
 // Effective range (0x0–0xFFFFFFFF): 2020-09-13 12:26:40 – 2156-10-20 18:54:55 (UTC)
 const idEpochBase int64 = 1600000000
 
-// GenID generates a universally unique UUID suitable to be used for sorted identity
+// Gen generates a universally unique UUID suitable to be used for sorted identity
 func Gen() UUID {
 	var id UUID
 

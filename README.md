@@ -13,6 +13,8 @@
 
 ## Usage
 
+#### Variables & Constants
+
 ```go
 var Max = UUID{
   255, 255, 255, 255, 255, 255, 255, 255,
@@ -20,6 +22,12 @@ var Max = UUID{
 }
 ```
 Max is the largest possible UUID (must not be modified)
+
+```go
+var Min UUID
+```
+Min is the zero UUID (must not be modified)
+
 
 #### type UUID
 
@@ -54,35 +62,14 @@ reduce the random data needed, environments like JavaScript doesn't neccessarily
 provide high-precision clocks. Doing things this way means that we can generate
 and parse the embedded timestamp in a wide variety of programming languages.
 
-```go
-var Min UUID
-```
-Min is the zero UUID (must not be modified)
-
-#### func  FromBytes
-
-```go
-func FromBytes(verbatim []byte) UUID
-```
-FromBytes copies verbatim bytes into an UUID and returns that UUID. verbatim
-must be at least 16 bytes long or this will panic.
-
-#### func  FromString
-
-```go
-func FromString(encoded string) UUID
-```
-FromString decodes a string representation of an UUID (i.e. from String())
-
-#### func  Gen
 
 ```go
 func Gen() UUID
 ```
+
 GenID generates a universally unique UUID suitable to be used for sorted
 identity
 
-#### func  New
 
 ```go
 func New(sec int64, nsec int, random []byte) UUID
@@ -99,6 +86,22 @@ To create an UUID with a time.Time object, do this:
 
 Up to 10 bytes is used from random. If len(random) < 10, the remaining "random"
 bytes of UUID are zero.
+
+
+```go
+func FromBytes(verbatim []byte) UUID
+```
+
+FromBytes copies verbatim bytes into an UUID and returns that UUID. verbatim
+must be at least 16 bytes long or this will panic.
+
+
+```go
+func FromString(encoded string) UUID
+```
+
+FromString decodes a string representation of an UUID (i.e. from String())
+
 
 #### func (UUID) Bytes
 

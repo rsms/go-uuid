@@ -47,6 +47,10 @@ var Max = UUID{
 	255, 255, 255, 255, 255, 255, 255, 255,
 }
 
+// StringMaxLen is the maximum length of a string representation of a UUID,
+// i.e. as returned by UUID.String()
+const StringMaxLen = 22
+
 // idEpochBase offsets the timestamp to provide a wider range.
 // Effective range (0x0–0xFFFFFFFF): 2020-09-13 12:26:40 – 2156-10-20 18:54:55 (UTC)
 const idEpochBase int64 = 1600000000
@@ -140,7 +144,7 @@ func FromString(encoded string) UUID {
 // String returns a string representation of the UUID.
 // The returned string is sortable with the same order as the "raw" UUID bytes and is URL safe.
 func (id UUID) String() string {
-	var buf [22]byte
+	var buf [StringMaxLen]byte
 	n := id.EncodeString(buf[:])
 	return string(buf[n:])
 }
@@ -193,7 +197,7 @@ SOFTWARE.
 
 const base62Characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-// EncodeString writes the receiver to dst which must be at least 22 bytes.
+// EncodeString writes the receiver to dst which must be at least StringMaxLen (22) bytes.
 // Returns the start offset (this function starts writing at the end of dst.)
 func (id UUID) EncodeString(dst []byte) int {
 	const srcBase = 0x100000000
@@ -241,7 +245,7 @@ func (id *UUID) DecodeString(src []byte) {
 	const srcBase = 62
 	const dstBase = 0x100000000
 
-	parts := [22]byte{}
+	parts := [StringMaxLen]byte{}
 
 	partsIndex := 21
 	for i := len(src); i > 0; {

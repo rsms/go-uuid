@@ -2,7 +2,6 @@ package uuid
 
 import (
 	"crypto/rand"
-	math_rand "math/rand"
 	"time"
 )
 
@@ -55,8 +54,9 @@ const StringMaxLen = 22
 // Effective range (0x0–0xFFFFFFFF): 2020-09-13 12:26:40 – 2156-10-20 18:54:55 (UTC)
 const idEpochBase int64 = 1600000000
 
-// Gen generates a universally unique UUID suitable to be used for sorted identity
-func Gen() UUID {
+// Gen generates a universally unique UUID suitable to be used for sorted identity.
+// An error is returned only in the case that the host system's random source fails.
+func Gen() (UUID, error) {
 	var id UUID
 
 	t := time.Now()
@@ -83,13 +83,19 @@ func Gen() UUID {
 	id[7] = byte(ns >> 16)
 
 	// rest are random bytes
-	if _, err := rand.Read(id[8:16]); err != nil {
-		// If crypto/rand fails, fall back to pseudo random number generator.
-		// This is fine since the id is not used for anything critical and its uniqueness
-		// is eventually verified (i.e. when inserting into a database.)
-		math_rand.Read(id[8:16])
-	}
+	_, err := rand.Read(id[8:16])
+	return id, err
+}
 
+// MustGen calls Gen and panics if Gen fails
+func MustGen() UUID {
+	id, err := Gen()
+	if err != nil {
+		// Note: This is the only untested line of code.
+		// I don't know how to test failure of crypto/rand.Reader
+		// If you do know how, please add to uuid_test.go and submit a PR!
+		panic(err)
+	}
 	return id
 }
 

@@ -14,8 +14,9 @@ func TestUUID(t *testing.T) {
 	assert.Eq("Max encoding", Max.String(), "7n42DGM5Tflk9n8mt7Fhc7")
 
 	smallId := UUID{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2}
-	id1 := Gen()
-	id2 := Gen()
+	id1, err := Gen()
+	assert.NoErr("Gen", err)
+	id2 := MustGen() // calls Gen and panics if it returns an error
 
 	// t.Logf("id1: % x  %q", id1[:], id1)
 	// t.Logf("id2: %x  %q", id2[:], id2)
@@ -49,6 +50,12 @@ func TestUUID(t *testing.T) {
 		idt.Time().Nanosecond()/int(time.Millisecond),
 		tm.Nanosecond()/int(time.Millisecond))
 
+	// raw byte representation
+	bytes := id1.Bytes()
+	id1b := FromBytes(bytes)
+	assert.Eq("FromBytes(Bytes()) yields same result", id1, id1b)
+
+	// // --------------------------------------------------------
 	// // Generate UUIDs for documentation or demo
 	// for i := 0; i < 5; i++ {
 	// 	id := Gen()

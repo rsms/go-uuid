@@ -64,11 +64,19 @@ and parse the embedded timestamp in a wide variety of programming languages.
 
 
 ```go
-func Gen() UUID
+func Gen() (UUID, error)
 ```
 
-GenID generates a universally unique UUID suitable to be used for sorted
-identity
+Gen generates a universally unique UUID suitable to be used for sorted identity.
+An error is returned only in the case that the host system's random source fails.
+
+
+```go
+func MustGen() UUID
+```
+
+MustGen calls `Gen` and panics on error,
+which only happens if the host system's random source fails.
 
 
 ```go
@@ -108,6 +116,7 @@ FromString decodes a string representation of an UUID (i.e. from String())
 ```go
 func (id UUID) Bytes() []byte
 ```
+
 Bytes returns the IDs natural 16 byte long value. The returned slice's bytes
 must not be modified.
 
@@ -116,6 +125,7 @@ must not be modified.
 ```go
 func (id *UUID) DecodeString(src []byte)
 ```
+
 DecodeString sets the receiving UUID to the decoded value of src, which is
 expected to be a string previously encoded using EncodeString (base62 0-9A-Za-z)
 
